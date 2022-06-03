@@ -24,10 +24,14 @@ public class UserMapper {
     ModelMapper modelMapper = new ModelMapper();
 
     public UserDto toDto(User user){
-        TypeMap<User, UserDto> propertyMapper = this.modelMapper.createTypeMap(User.class, UserDto.class);
-        propertyMapper.addMappings(
-                mapper -> mapper.map(src -> user.getRuoli().stream().findFirst().get().getName(), UserDto::setRuolo)
-        );
+    if (this.modelMapper.getTypeMap(User.class, UserDto.class) == null) {
+      TypeMap<User, UserDto> propertyMapper =
+          this.modelMapper.createTypeMap(User.class, UserDto.class);
+      propertyMapper.addMappings(
+          mapper ->
+              mapper.map(
+                  src -> user.getRuoli().stream().findFirst().get().getName(), UserDto::setRuolo));
+    }
         UserDto userDto = modelMapper.map(user, UserDto.class);
         return userDto;
     }
