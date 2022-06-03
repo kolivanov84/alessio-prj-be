@@ -1,0 +1,29 @@
+version: '3'
+services:
+
+  db:
+    container_name: mysql-alessio-prj
+    image: mariadb:10.6.5-focal
+    command: mysqld --skip-ssl
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_USER=root
+      - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      - MYSQL_DATABASE=alessio-prj
+    ports:
+      - 3307:3306
+    volumes:
+      - alessio-prj-vol:/var/lib/mysql
+
+
+  dpomanager:
+    build: .
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/alessio-prj?useSSL=false
+    ports:
+      - 8080:8080
+
+volumes:
+  alessio-prj-vol:
