@@ -2,6 +2,7 @@ package it.alessio.prj.prj.service;
 
 import it.alessio.prj.prj.dto.LoginResponseDto;
 import it.alessio.prj.prj.dto.UserCreateRequestDto;
+import it.alessio.prj.prj.dto.UserDto;
 import it.alessio.prj.prj.entity.User;
 import it.alessio.prj.prj.mapper.UserMapper;
 import it.alessio.prj.prj.repository.UserRepository;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -32,6 +34,14 @@ public class UtenteService implements UserDetailsService {
 
     public Integer createUser(UserCreateRequestDto utenteDto) {
         return userRepository.save(utentemapper.toEntity(utenteDto)).getId();
+    }
+
+    public UserDto findById(Integer idUser) {
+        Optional<User> user = userRepository.findById(idUser);
+        if(user.isPresent())
+            return utentemapper.toDto(user.get());
+        else
+            return null;
     }
 
     @Override

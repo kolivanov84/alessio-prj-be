@@ -6,7 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -57,4 +59,15 @@ public class User {
                 inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
         private Set<Role> ruoli = new HashSet<>();
 
+  @PrePersist
+  public void setDataCreation() {
+    this.dataCreazione = new Date();
+    this.dataModifica = new Date();
+  }
+
+  @PreUpdate
+  public void setDataModifica() {
+    if (this.dataCreazione == null) this.dataCreazione = new Date();
+    this.dataModifica = new Date();
+  }
 }
