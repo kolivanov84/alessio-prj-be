@@ -1,7 +1,6 @@
 package it.alessio.prj.prj.controller;
 
 import io.swagger.annotations.ApiOperation;
-import it.alessio.prj.prj.dto.UserCreateRequestDto;
 import it.alessio.prj.prj.dto.UserDto;
 import it.alessio.prj.prj.service.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
