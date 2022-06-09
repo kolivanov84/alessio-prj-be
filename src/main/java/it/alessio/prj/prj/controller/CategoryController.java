@@ -6,10 +6,7 @@ import it.alessio.prj.prj.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,10 +19,18 @@ public class CategoryController {
 
   @RequestMapping(value = "/", method = RequestMethod.GET)
   @ApiOperation(value = "Get Categories", notes = "return all categories")
-  public ResponseEntity getUser() {
+  public ResponseEntity getCategories() {
     List<CategoryDto> categories = categoryService.findAll();
     if (categories != null && !categories.isEmpty())
       return ResponseEntity.status(HttpStatus.CREATED).body(categories);
+    else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+  }
+
+  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+  @ApiOperation(value = "Get Category ", notes = "return category by id")
+  public ResponseEntity getCategory(@PathVariable Integer id) {
+    CategoryDto category = categoryService.findById(id);
+    if (category != null) return ResponseEntity.status(HttpStatus.CREATED).body(category);
     else return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
   }
 }
